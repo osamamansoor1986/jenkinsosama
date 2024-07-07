@@ -1,0 +1,38 @@
+pipeline {
+    agent { 
+        label 'windows-client'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    try {
+                        git url: 'https://github.com/osamamansoor1986/jenkinsosama.git', branch: 'main'
+                    } catch (Exception e) {
+                        echo 'Error occurred during Git checkout'
+                        echo e.toString()
+                        error('Stopping pipeline due to checkout error')
+                    }
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                bat 'echo Building on Windows client'
+                bat 'build-command'  // Replace with actual build command
+            }
+        }
+        stage('Test') {
+            steps {
+                bat 'echo Running tests on Windows client'
+                bat 'test-command'  // Replace with actual test command
+            }
+        }
+        stage('Deploy') {
+            steps {
+                bat 'echo Deploying on Windows client'
+                bat 'deploy-command'  // Replace with actual deploy command
+            }
+        }
+    }
+}
